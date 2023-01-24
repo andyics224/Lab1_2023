@@ -9,8 +9,10 @@ import SwiftUI
 
 struct MainView: View {
     @State private var showSettings = false
-    @State var colour = Color.yellow
-    @State var maxChars = 150
+    //@State var colour = Color.yellow
+    @State var colour = array2color(array: UserDefaults.standard.object(forKey: "BackgroundColour") as? [CGFloat] ?? color2array(colour: Color.yellow))
+    //@State var maxChars = 150
+    @State var maxChars = UserDefaults.standard.object(forKey: "MaxCharacterCount") as? Int ?? 150
     var body: some View {
         NavigationStack() {
             VStack {
@@ -26,6 +28,7 @@ struct MainView: View {
                     Button(
                         action: {
                             showSettings.toggle()
+                            //UserDefaults.standard.set(maxChars, forKey: "MaxCharacterCount")
                         },
                         label: {
                             Image(systemName: showSettings ? "house" : "gear")

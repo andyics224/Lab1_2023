@@ -6,13 +6,16 @@
 //
 
 import SwiftUI
+import Foundation
 
 struct DetailView: View {
     @State private var description = ""
     @State private var favourite = false
     var colour: Color
     var maxChars: Int
+    
     var body: some View {
+        
         VStack {
             Image(systemName: "bolt.car")
                 .resizable(resizingMode: .stretch)

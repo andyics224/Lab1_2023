@@ -15,8 +15,33 @@ struct SettingsView: View {
     let range = 10...300
     var body: some View {
         VStack {
-            ColorPicker("Background", selection: $colour).padding()
-            Stepper(value: $maxChars, in: range, step: step) {
+            ColorPicker(
+                "Background",
+                selection: Binding(
+                    get: {
+                        colour
+                    },
+                    set: {
+                        newValue in colour = newValue
+                        UserDefaults.standard.set(color2array(colour: colour), forKey: "BackgroundColour")
+                        
+                    }
+                )
+            ).padding()
+            Stepper(
+                //value: $maxChars,
+                value: Binding(
+                    get: {
+                        maxChars
+                    },
+                    set: {
+                        newValue in maxChars = newValue
+                        UserDefaults.standard.set(maxChars, forKey: "MaxCharacterCount")
+                    }
+                ),
+                in: range,
+                step: step
+            ) {
                 Text("Max Character Count: \(maxChars)")
             }.padding()
         }
@@ -31,3 +56,16 @@ struct SettingsView_Previews: PreviewProvider {
     }
 }
 
+func color2array(colour: Color) -> [CGFloat] {
+    let uiColor = UIColor(colour)
+    var red: CGFloat = 0.0
+    var green: CGFloat = 0.0
+    var blue: CGFloat = 0.0
+    var alpha: CGFloat = 0.0
+    uiColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+    return [red, green, blue, alpha]
+}
+
+func array2color(array: [CGFloat]) -> Color {
+    return Color(Color.RGBColorSpace.sRGB, red: array[0], green: array[1], blue: array[2], opacity:array[3])
+}
