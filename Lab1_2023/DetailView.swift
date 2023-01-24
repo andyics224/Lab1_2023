@@ -13,7 +13,7 @@ struct DetailView: View {
     @State private var favourite = false
     var colour: Color
     var maxChars: Int
-    
+    var bgColor: Color = Color.white
     var body: some View {
         
         VStack {
@@ -21,7 +21,7 @@ struct DetailView: View {
                 .resizable(resizingMode: .stretch)
                 .imageScale(.large)
                 .foregroundColor(.accentColor)
-                .background(favourite ? colour : Color.white)
+                .background(favourite ? colour : bgColor)
             Toggle(isOn: $favourite) {
                 Text("Favourite")
             }

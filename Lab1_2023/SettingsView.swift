@@ -24,7 +24,6 @@ struct SettingsView: View {
                     set: {
                         newValue in colour = newValue
                         UserDefaults.standard.set(color2array(colour: colour), forKey: "BackgroundColour")
-                        
                     }
                 )
             ).padding()
