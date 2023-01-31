@@ -21,21 +21,100 @@ final class Lab1_2023UITests: XCTestCase {
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
-
-    func testExample() throws {
-        // UI tests must launch the application that they test.
+    
+    func testCharCount() throws {
         let app = XCUIApplication()
         app.launch()
-
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        
+        let detailText = app.staticTexts["DetailText"]
+        XCTAssertEqual(detailText.label, "0/150")
+        
+        let detailTextEditor = app.textViews["DetailTextEditor"]
+        detailTextEditor.tap()
+        
+        let keyH = app.keys["H"]
+        keyH.tap()
+        XCTAssertTrue(detailText.waitForExistence(timeout: 5))
+        XCTAssertEqual(detailText.label, "1/150")
+        
+        let keyi = app.keys["i"]
+        keyi.tap()
+        XCTAssertEqual(detailText.label, "2/150")
     }
-
-    func testLaunchPerformance() throws {
-        if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 7.0, *) {
-            // This measures how long it takes to launch your application.
-            measure(metrics: [XCTApplicationLaunchMetric()]) {
-                XCUIApplication().launch()
-            }
+    
+    func testTextEntering() throws {
+        let app = XCUIApplication()
+        app.launch()
+        
+        let detailTextEditor = app.textViews["DetailTextEditor"]
+        detailTextEditor.tap()
+        
+        let keyH = app.keys["H"]
+        keyH.tap()
+        
+        let keyi = app.keys["a"]
+        for _ in 1...155 {
+            keyi.tap()
+        }
+        
+    }
+    
+    func testMaxCharsStepper() throws {
+        let app = XCUIApplication()
+        app.launch()
+        
+        let toggle = app.buttons["NavigationButton"]
+        toggle.tap()
+        
+        for _ in 1...33 {
+            app.steppers["MaxCountStepper"].buttons["Decrement"].tap()
+        }
+        
+        app.terminate()
+        app.launch()
+        
+        let detailText = app.staticTexts["DetailText"]
+        //Checks that the maximum character is still 300
+        //XCTAssertEqual(detailText.label, "0/10")
+        
+        let detailTextEditor = app.textViews["DetailTextEditor"]
+        detailTextEditor.tap()
+        
+        let keyY = app.keys["Y"]
+        keyY.tap()
+        
+        let keya = app.keys["a"]
+        for _ in 1...12 {
+            keya.tap()
+        }
+        
+        // Check to make sure that the maximumcharacter count to 300
+        toggle.tap()
+        for _ in 1...33 {
+            app.steppers["MaxCountStepper"].buttons["Increment"].tap()
+        }
+        
+        for _ in 1...15 {
+            app.steppers["MaxCountStepper"].buttons["Decrement"].tap()
         }
     }
+    
+    
+
+//    func testExample() throws {
+//        // UI tests must launch the application that they test.
+//        let app = XCUIApplication()
+//        app.launch()
+//
+//        // Use XCTAssert and related functions to verify your tests produce the correct results.
+//    }
+//
+//    func testLaunchPerformance() throws {
+//        if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 7.0, *) {
+//            // This measures how long it takes to launch your application.
+//            measure(metrics: [XCTApplicationLaunchMetric()]) {
+//                XCUIApplication().launch()
+//            }
+//        }
+//    }
 }

@@ -26,7 +26,7 @@ struct SettingsView: View {
                         UserDefaults.standard.set(color2array(colour: colour), forKey: "BackgroundColour")
                     }
                 )
-            ).padding()
+            ).padding().accessibilityIdentifier("BackgroundColorPicker")
             Stepper(
                 //value: $maxChars,
                 value: Binding(
@@ -42,7 +42,7 @@ struct SettingsView: View {
                 step: step
             ) {
                 Text("Max Character Count: \(maxChars)")
-            }.padding()
+            }.padding().accessibilityIdentifier("MaxCountStepper")
         }
     }
 }

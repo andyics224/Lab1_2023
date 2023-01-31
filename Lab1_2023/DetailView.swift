@@ -21,10 +21,10 @@ struct DetailView: View {
                 .resizable(resizingMode: .stretch)
                 .imageScale(.large)
                 .foregroundColor(.accentColor)
-                .background(favourite ? colour : bgColor)
+                .background(favourite ? colour : bgColor).accessibilityIdentifier("DetailImage")
             Toggle(isOn: $favourite) {
                 Text("Favourite")
-            }
+            }.accessibilityIdentifier("FavouriteToggle")
             TextEditor(text:
                 Binding(
                     get: {
@@ -37,8 +37,8 @@ struct DetailView: View {
                         }
                     }
                 )
-            )
-            Text("\(String(description.count)) / \(maxChars)")
+            ).accessibilityIdentifier("DetailTextEditor")
+            Text("\(String(description.count))/\(maxChars)").accessibilityIdentifier("DetailText")
         }
         .padding()
     }
