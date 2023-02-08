@@ -14,6 +14,7 @@ struct MainView: View {
     //@State var maxChars = 150
     @State var maxChars = UserDefaults.standard.object(forKey: "MaxCharacterCount") as? Int ?? 150
     @Environment(\.horizontalSizeClass) var sizeClass
+    @EnvironmentObject var inventoryItems: InventoryItems
     
     var body: some View {
         NavigationStack() {
@@ -23,12 +24,22 @@ struct MainView: View {
                 }
                 else {
                     // DetailView(colour: colour, maxChars: maxChars)
+                    /*
                     if sizeClass == .regular {
                         DetailView(colour: colour, maxChars: maxChars)
                             .frame(width: 320, height: 460, alignment: .center)
                     }
                     else if sizeClass == .compact {
                         DetailView(colour: colour, maxChars: maxChars)
+                    }
+                    */
+                    List($inventoryItems.entries) {
+                        $inventoryItem in
+                        NavigationLink(
+                            destination: DetailView(inventoryItem: $inventoryItem, colour: colour, maxChars: maxChars)
+                        ) {
+                            RowView(inventoryItem: inventoryItem, colour: colour)
+                        }
                     }
                 }
             }
@@ -52,7 +63,7 @@ struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         ForEach(["iPad (10th generation)", "iPhone 14 Pro"], id: \.self) { deviceName in
             MainView()
-            .previewDevice(PreviewDevice(rawValue: deviceName))
+                .previewDevice(PreviewDevice(rawValue: deviceName)).environmentObject(InventoryItems())
             
         }
     }
