@@ -128,6 +128,17 @@ final class Lab1_2023UITests: XCTestCase {
         XCTAssertEqual(favouriteToggle.value as? String, "0")
     }
     
+    func testAddItem() throws{
+        let app = XCUIApplication()
+        app.launch()
+        app.navigationBars["Inventory"].buttons["PlusButton"].tap()
+        
+        app.collectionViews.buttons.firstMatch.tap()
+        let detailTextEditor = app.textViews["DetailTextEditor"]
+        // What if I want to check the image, row, object size?
+        XCTAssertEqual(detailTextEditor.value as? String, "Ladybug")
+    }
+    
     
 
 //    func testExample() throws {

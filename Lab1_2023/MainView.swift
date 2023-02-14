@@ -45,8 +45,23 @@ struct MainView: View {
             }
             // Add a title on top of the list
             .navigationBarTitle(Text("Inventory"))
-            .navigationBarItems(
-                trailing:
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing){
+                    if !showSettings {
+                        Button(
+                            action: {
+                                withAnimation {
+                                    let item = InventoryItem(image: "ladybug", description: "Ladybug", toggle: false)
+                                    inventoryItems.entries.insert(item, at: 0)
+                                }
+                            }
+                        ) {
+                            Image(systemName: "plus")
+                        }
+                        .accessibilityIdentifier("PlusButton")
+                    }
+                }
+                ToolbarItem(placement: .bottomBar){
                     Button(
                         action: {
                             showSettings.toggle()
@@ -56,7 +71,8 @@ struct MainView: View {
                             Image(systemName: showSettings ? "house" : "gear")
                         }
                     ).accessibilityIdentifier("NavigationButton")
-            )
+                }
+            }
         }
     }
 }
