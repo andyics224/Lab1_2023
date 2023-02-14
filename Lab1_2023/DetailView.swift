@@ -11,41 +11,45 @@ import Foundation
 struct DetailView: View {
     @State private var description = ""
     @State private var favourite = false
+    @Binding var inventoryItem: InventoryItem
+    
     var colour: Color
     var maxChars: Int
     var bgColor: Color = Color.white
     var body: some View {
         
         VStack {
-            Image(systemName: "bolt.car")
+            Image(systemName: inventoryItem.image)
                 .resizable(resizingMode: .stretch)
                 .imageScale(.large)
                 .foregroundColor(.accentColor)
-                .background(favourite ? colour : bgColor).accessibilityIdentifier("DetailImage")
-            Toggle(isOn: $favourite) {
+                .background(inventoryItem.toggle ? colour : bgColor).accessibilityIdentifier("DetailImage")
+            Toggle(isOn: $inventoryItem.toggle) {
+                
                 Text("Favourite")
             }.accessibilityIdentifier("FavouriteToggle")
             TextEditor(text:
                 Binding(
                     get: {
-                        description
+                        inventoryItem.description
                     },
                     set: {
                         newValue in
                         if newValue.count <= maxChars {
-                            description = newValue
+                            inventoryItem.description = newValue
                         }
                     }
                 )
             ).accessibilityIdentifier("DetailTextEditor")
-            Text("\(String(description.count))/\(maxChars)").accessibilityIdentifier("DetailText")
+            Text("\(String(inventoryItem.description.count))/\(maxChars)").accessibilityIdentifier("DetailText")
         }
         .padding()
     }
 }
 
 struct DetailView_Previews: PreviewProvider {
+    @State static var inventoryItems = InventoryItems()
     static var previews: some View {
-        DetailView(colour: Color.yellow, maxChars: 150)
+        DetailView(inventoryItem: $inventoryItems.entries[0], colour: Color.yellow, maxChars: 150)
     }
 }

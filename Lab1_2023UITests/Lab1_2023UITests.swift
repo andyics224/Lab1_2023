@@ -26,8 +26,10 @@ final class Lab1_2023UITests: XCTestCase {
         let app = XCUIApplication()
         app.launch()
         
+        app.collectionViews.buttons.firstMatch.tap()
+        
         let detailText = app.staticTexts["DetailText"]
-        XCTAssertEqual(detailText.label, "0/150")
+        XCTAssertEqual(detailText.label, "4/150")
         
         let detailTextEditor = app.textViews["DetailTextEditor"]
         detailTextEditor.tap()
@@ -35,16 +37,18 @@ final class Lab1_2023UITests: XCTestCase {
         let keyH = app.keys["H"]
         keyH.tap()
         XCTAssertTrue(detailText.waitForExistence(timeout: 5))
-        XCTAssertEqual(detailText.label, "1/150")
+        XCTAssertEqual(detailText.label, "5/150")
         
         let keyi = app.keys["i"]
         keyi.tap()
-        XCTAssertEqual(detailText.label, "2/150")
+        XCTAssertEqual(detailText.label, "6/150")
     }
     
     func testTextEntering() throws {
         let app = XCUIApplication()
         app.launch()
+        
+        app.collectionViews.buttons.firstMatch.tap()
         
         let detailTextEditor = app.textViews["DetailTextEditor"]
         detailTextEditor.tap()
@@ -63,6 +67,7 @@ final class Lab1_2023UITests: XCTestCase {
         let app = XCUIApplication()
         app.launch()
         
+        
         let toggle = app.buttons["NavigationButton"]
         toggle.tap()
         
@@ -72,6 +77,8 @@ final class Lab1_2023UITests: XCTestCase {
         
         app.terminate()
         app.launch()
+        
+        app.collectionViews.buttons.firstMatch.tap()
         
         let detailText = app.staticTexts["DetailText"]
         //Checks that the maximum character is still 300
@@ -88,6 +95,9 @@ final class Lab1_2023UITests: XCTestCase {
             keya.tap()
         }
         
+        let backButton = app.buttons["Back"]
+        backButton.tap()
+        
         // Check to make sure that the maximumcharacter count to 300
         toggle.tap()
         for _ in 1...33 {
@@ -97,6 +107,25 @@ final class Lab1_2023UITests: XCTestCase {
         for _ in 1...15 {
             app.steppers["MaxCountStepper"].buttons["Decrement"].tap()
         }
+    }
+    
+    func testToggle() throws {
+        let app = XCUIApplication()
+        app.launch()
+        
+        app.collectionViews.buttons.firstMatch.tap()
+        
+        let favouriteToggle = app.switches["FavouriteToggle"]
+        favouriteToggle.tap()
+        XCTAssertEqual(favouriteToggle.value as? String, "1")
+        
+        let backButton = app.buttons["Back"]
+        backButton.tap()
+        
+        let secondEntry = app.collectionViews.buttons.element(boundBy: 1)
+        secondEntry.tap()
+        
+        XCTAssertEqual(favouriteToggle.value as? String, "0")
     }
     
     
