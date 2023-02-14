@@ -23,16 +23,6 @@ struct MainView: View {
                     SettingsView(colour: $colour, maxChars: $maxChars)
                 }
                 else {
-                    // DetailView(colour: colour, maxChars: maxChars)
-                    /*
-                    if sizeClass == .regular {
-                        DetailView(colour: colour, maxChars: maxChars)
-                            .frame(width: 320, height: 460, alignment: .center)
-                    }
-                    else if sizeClass == .compact {
-                        DetailView(colour: colour, maxChars: maxChars)
-                    }
-                    */
                     List($inventoryItems.entries) {
                         $inventoryItem in
                         NavigationLink(
@@ -40,11 +30,35 @@ struct MainView: View {
                         ) {
                             RowView(inventoryItem: inventoryItem, colour: colour)
                         }
+                        .swipeActions(edge: .trailing) {
+                            Button(role: .destructive) {
+                                inventoryItems.entries.removeAll(where: { $0.id == inventoryItem.id})
+                            } label: {
+                                Label("Delete", systemImage: "trash")
+                            }
+                        }
                     }
                 }
             }
-            .navigationBarItems(
-                trailing:
+            // Add a title on top of the list
+            .navigationBarTitle(Text("Inventory"))
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing){
+                    if !showSettings {
+                        Button(
+                            action: {
+                                withAnimation {
+                                    let item = InventoryItem(image: "ladybug", description: "Ladybug", toggle: false)
+                                    inventoryItems.entries.insert(item, at: 0)
+                                }
+                            }
+                        ) {
+                            Image(systemName: "plus")
+                        }
+                        .accessibilityIdentifier("PlusButton")
+                    }
+                }
+                ToolbarItem(placement: .bottomBar){
                     Button(
                         action: {
                             showSettings.toggle()
@@ -54,7 +68,8 @@ struct MainView: View {
                             Image(systemName: showSettings ? "house" : "gear")
                         }
                     ).accessibilityIdentifier("NavigationButton")
-            )
+                }
+            }
         }
     }
 }
@@ -63,7 +78,7 @@ struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         ForEach(["iPad (10th generation)", "iPhone 14 Pro"], id: \.self) { deviceName in
             MainView()
-                .previewDevice(PreviewDevice(rawValue: deviceName)).environmentObject(InventoryItems())
+                .previewDevice(PreviewDevice(rawValue: deviceName)).environmentObject(InventoryItems(previewMode: true))
             
         }
     }

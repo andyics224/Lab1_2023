@@ -29,7 +29,8 @@ final class Lab1_2023UITests: XCTestCase {
         app.collectionViews.buttons.firstMatch.tap()
         
         let detailText = app.staticTexts["DetailText"]
-        XCTAssertEqual(detailText.label, "4/150")
+        //XCTAssertEqual(detailText.label, "4/150")
+        XCTAssertEqual(detailText.label, "7/150")
         
         let detailTextEditor = app.textViews["DetailTextEditor"]
         detailTextEditor.tap()
@@ -37,11 +38,11 @@ final class Lab1_2023UITests: XCTestCase {
         let keyH = app.keys["H"]
         keyH.tap()
         XCTAssertTrue(detailText.waitForExistence(timeout: 5))
-        XCTAssertEqual(detailText.label, "5/150")
+        XCTAssertEqual(detailText.label, "8/150")
         
         let keyi = app.keys["i"]
         keyi.tap()
-        XCTAssertEqual(detailText.label, "6/150")
+        XCTAssertEqual(detailText.label, "9/150")
     }
     
     func testTextEntering() throws {
@@ -95,7 +96,7 @@ final class Lab1_2023UITests: XCTestCase {
             keya.tap()
         }
         
-        let backButton = app.buttons["Back"]
+        let backButton = app.buttons["Inventory"]
         backButton.tap()
         
         // Check to make sure that the maximumcharacter count to 300
@@ -119,13 +120,83 @@ final class Lab1_2023UITests: XCTestCase {
         favouriteToggle.tap()
         XCTAssertEqual(favouriteToggle.value as? String, "1")
         
-        let backButton = app.buttons["Back"]
+        let backButton = app.buttons["Inventory"]
         backButton.tap()
         
         let secondEntry = app.collectionViews.buttons.element(boundBy: 1)
         secondEntry.tap()
         
         XCTAssertEqual(favouriteToggle.value as? String, "0")
+    }
+    
+    func testAddItem() throws{
+        let app = XCUIApplication()
+        app.launch()
+        app.navigationBars["Inventory"].buttons["PlusButton"].tap()
+        
+        app.collectionViews.buttons.firstMatch.tap()
+        let detailTextEditor = app.textViews["DetailTextEditor"]
+        // What if I want to check the image, row, object size?
+        XCTAssertEqual(detailTextEditor.value as? String, "Ladybug")
+    }
+    
+    func testDeleteItem() throws{
+        let app = XCUIApplication()
+        app.launch()
+        app.collectionViews.buttons.firstMatch.swipeLeft(velocity: .slow)
+        app.collectionViews.buttons["Delete"].tap()
+        XCTAssertEqual(app.collectionViews.buttons.count as? Int, 1)
+    }
+    
+    func testLoadSaveItem() throws{
+        let app = XCUIApplication()
+        app.launch()
+        
+        //add first item
+        app.navigationBars["Inventory"].buttons["PlusButton"].tap()
+        
+        app.collectionViews.buttons.firstMatch.tap()
+        
+        let favouriteToggle = app.switches["FavouriteToggle"]
+        favouriteToggle.tap()
+        
+        let backButton = app.buttons["Inventory"]
+        backButton.tap()
+        
+        //add second item
+        app.navigationBars["Inventory"].buttons["PlusButton"].tap()
+        
+        XCUIDevice.shared.press(.home)
+        sleep(1)
+        
+        app.terminate()
+        app.launch()
+        
+        app.collectionViews.buttons.firstMatch.tap()
+        XCTAssertEqual(favouriteToggle.value as? String, "0")
+        
+        backButton.tap()
+        
+        app.collectionViews.buttons.element(boundBy: 1).tap()
+        XCTAssertEqual(favouriteToggle.value as? String, "1")
+        
+        backButton.tap()
+        //remove 2 items
+        /*
+        app.collectionViews.buttons.firstMatch.swipeLeft(velocity: .slow)
+        app.collectionViews.buttons["Delete"].tap()
+        app.collectionViews.buttons.firstMatch.swipeLeft(velocity: .slow)
+        app.collectionViews.buttons["Delete"].tap()
+         */
+        
+        //remove items util got 2 items left
+        let defaultItems = 2
+        while (app.collectionViews.buttons.count > defaultItems){
+            app.collectionViews.buttons.firstMatch.swipeLeft(velocity: .slow)
+            app.collectionViews.buttons["Delete"].tap()
+        }
+        XCUIDevice.shared.press(.home)
+        sleep(1)
     }
     
     

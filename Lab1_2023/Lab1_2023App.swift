@@ -10,9 +10,19 @@ import SwiftUI
 @main
 struct Lab1_2023App: App {
     @StateObject var inventoryItems = InventoryItems()
+    @Environment(\.scenePhase) var scenePhese
     var body: some Scene {
         WindowGroup {
             MainView().environmentObject(inventoryItems)
         }
+        .onChange(of: scenePhese, perform: {
+            phase in
+            switch phase {
+            case .background:
+                inventoryItems.saveObjects()
+            default:
+                break
+            }
+        })
     }
 }
