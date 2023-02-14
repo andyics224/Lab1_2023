@@ -139,6 +139,14 @@ final class Lab1_2023UITests: XCTestCase {
         XCTAssertEqual(detailTextEditor.value as? String, "Ladybug")
     }
     
+    func testDeleteItem() throws{
+        let app = XCUIApplication()
+        app.launch()
+        app.navigationBars["Inventory"].buttons["PlusButton"].tap()
+        app.collectionViews.buttons.firstMatch.swipeLeft(velocity: .slow)
+        app.collectionViews.buttons["Delete"].tap()
+    }
+    
     
 
 //    func testExample() throws {

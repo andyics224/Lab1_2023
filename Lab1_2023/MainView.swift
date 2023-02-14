@@ -23,22 +23,19 @@ struct MainView: View {
                     SettingsView(colour: $colour, maxChars: $maxChars)
                 }
                 else {
-                    // DetailView(colour: colour, maxChars: maxChars)
-                    /*
-                    if sizeClass == .regular {
-                        DetailView(colour: colour, maxChars: maxChars)
-                            .frame(width: 320, height: 460, alignment: .center)
-                    }
-                    else if sizeClass == .compact {
-                        DetailView(colour: colour, maxChars: maxChars)
-                    }
-                    */
                     List($inventoryItems.entries) {
                         $inventoryItem in
                         NavigationLink(
                             destination: DetailView(inventoryItem: $inventoryItem, colour: colour, maxChars: maxChars)
                         ) {
                             RowView(inventoryItem: inventoryItem, colour: colour)
+                        }
+                        .swipeActions(edge: .trailing) {
+                            Button(role: .destructive) {
+                                inventoryItems.entries.removeAll(where: { $0.id == inventoryItem.id})
+                            } label: {
+                                Label("Delete", systemImage: "trash")
+                            }
                         }
                     }
                 }
