@@ -17,6 +17,9 @@
 		761911E12980939400558CD0 /* Lab1_2023App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763FE507296E194100DFAB6C /* Lab1_2023App.swift */; };
 		761911E2298093A500558CD0 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763FE509296E194100DFAB6C /* DetailView.swift */; };
 		761911E3298093A500558CD0 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763FE509296E194100DFAB6C /* DetailView.swift */; };
+		761D50C5299C55E7009C4CF3 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761D50C4299C55E6009C4CF3 /* ImageView.swift */; };
+		761D50C6299C55E7009C4CF3 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761D50C4299C55E6009C4CF3 /* ImageView.swift */; };
+		761D50C7299C55E7009C4CF3 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761D50C4299C55E6009C4CF3 /* ImageView.swift */; };
 		763FE508296E194100DFAB6C /* Lab1_2023App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763FE507296E194100DFAB6C /* Lab1_2023App.swift */; };
 		763FE50A296E194100DFAB6C /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763FE509296E194100DFAB6C /* DetailView.swift */; };
 		763FE50C296E194300DFAB6C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 763FE50B296E194300DFAB6C /* Assets.xcassets */; };
@@ -54,6 +57,7 @@
 /* Begin PBXFileReference section */
 		7604D33A29775572001C2871 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		7604D33E297755B1001C2871 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		761D50C4299C55E6009C4CF3 /* ImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageView.swift; path = ../../../../../../../Downloads/ImageView.swift; sourceTree = "<group>"; };
 		763FE504296E194100DFAB6C /* Lab1_2023.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lab1_2023.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		763FE507296E194100DFAB6C /* Lab1_2023App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lab1_2023App.swift; sourceTree = "<group>"; };
 		763FE509296E194100DFAB6C /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
@@ -116,6 +120,7 @@
 		763FE506296E194100DFAB6C /* Lab1_2023 */ = {
 			isa = PBXGroup;
 			children = (
+				761D50C4299C55E6009C4CF3 /* ImageView.swift */,
 				763FE507296E194100DFAB6C /* Lab1_2023App.swift */,
 				763FE509296E194100DFAB6C /* DetailView.swift */,
 				7604D33A29775572001C2871 /* MainView.swift */,
@@ -283,6 +288,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				761D50C5299C55E7009C4CF3 /* ImageView.swift in Sources */,
 				768530C52989E329005236D7 /* InventoryItem.swift in Sources */,
 				768530C92989E4DE005236D7 /* InventoryItems.swift in Sources */,
 				768530CD2989E60D005236D7 /* RowView.swift in Sources */,
@@ -303,6 +309,7 @@
 				768530CE2989E60D005236D7 /* RowView.swift in Sources */,
 				763FE519296E194400DFAB6C /* Lab1_2023Tests.swift in Sources */,
 				768530C62989E329005236D7 /* InventoryItem.swift in Sources */,
+				761D50C6299C55E7009C4CF3 /* ImageView.swift in Sources */,
 				761911E2298093A500558CD0 /* DetailView.swift in Sources */,
 				7604D33C29775572001C2871 /* MainView.swift in Sources */,
 			);
@@ -318,6 +325,7 @@
 				768530CF2989E60D005236D7 /* RowView.swift in Sources */,
 				7604D341297755B1001C2871 /* SettingsView.swift in Sources */,
 				768530C72989E329005236D7 /* InventoryItem.swift in Sources */,
+				761D50C7299C55E7009C4CF3 /* ImageView.swift in Sources */,
 				761911E12980939400558CD0 /* Lab1_2023App.swift in Sources */,
 				7604D33D29775572001C2871 /* MainView.swift in Sources */,
 			);
@@ -464,6 +472,7 @@
 				DEVELOPMENT_TEAM = VM9Q295534;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "\"Camera access is needed to add photos of inventory items\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -493,6 +502,7 @@
 				DEVELOPMENT_TEAM = VM9Q295534;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "\"Camera access is needed to add photos of inventory items\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

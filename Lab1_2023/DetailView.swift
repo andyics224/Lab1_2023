@@ -7,11 +7,16 @@
 
 import SwiftUI
 import Foundation
+import Photos
 
 struct DetailView: View {
     @State private var description = ""
     @State private var favourite = false
     @Binding var inventoryItem: InventoryItem
+    
+    @State var pickerVisible = false
+    @State var showCameraAlert = false
+    @State var imageSource = UIImagePickerController.SourceType.camera
     
     var colour: Color
     var maxChars: Int
@@ -42,6 +47,24 @@ struct DetailView: View {
                 )
             ).accessibilityIdentifier("DetailTextEditor")
             Text("\(String(inventoryItem.description.count))/\(maxChars)").accessibilityIdentifier("DetailText")
+                .navigationBarItems(trailing:
+                Button(action: {
+                    AVCaptureDevice.requestAccess(for: AVMediaType.video) { response in
+                        if response && UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera) {
+                            self.showCameraAlert = false
+                            self.imageSource = UIImagePickerController.SourceType.camera
+                            self.pickerVisible.toggle()
+                        } else {
+                            self.showCameraAlert
+                        }
+                    }
+                }) {
+                    Image(systemName: "camera")
+                }
+                .alert(isPresented: $showCameraAlert){
+                    Alert(title: Text("Error"), message: Text("Camera not avilable"), dismissButton: .default(Text("OK")))
+                }
+            )
         }
         .padding()
     }
