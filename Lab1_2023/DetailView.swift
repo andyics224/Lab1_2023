@@ -16,57 +16,89 @@ struct DetailView: View {
     
     @State var pickerVisible = false
     @State var showCameraAlert = false
+    @State var showLibraryAlert = false
+    
     @State var imageSource = UIImagePickerController.SourceType.camera
     
     var colour: Color
     var maxChars: Int
     var bgColor: Color = Color.white
     var body: some View {
-        
-        VStack {
-            Image(systemName: inventoryItem.image)
-                .resizable(resizingMode: .stretch)
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-                .background(inventoryItem.toggle ? colour : bgColor).accessibilityIdentifier("DetailImage")
-            Toggle(isOn: $inventoryItem.toggle) {
-                
-                Text("Favourite")
-            }.accessibilityIdentifier("FavouriteToggle")
-            TextEditor(text:
-                Binding(
-                    get: {
-                        inventoryItem.description
-                    },
-                    set: {
-                        newValue in
-                        if newValue.count <= maxChars {
-                            inventoryItem.description = newValue
+        ZStack{
+            VStack {
+                //Image(systemName: inventoryItem.image)
+                Image(uiImage: inventoryItem.image)
+                    .resizable(resizingMode: .stretch)
+                    .imageScale(.large)
+                    .foregroundColor(.accentColor)
+                    .background(inventoryItem.toggle ? colour : bgColor).accessibilityIdentifier("DetailImage")
+                    .border(inventoryItem.toggle ? colour : bgColor, width: 4).accessibilityIdentifier("DetailImage")
+                    .gesture(TapGesture(count: 1).onEnded({ value in
+                        PHPhotoLibrary.requestAuthorization({ status in
+                            if status == .authorized{
+                                self.showLibraryAlert = false
+                                self.imageSource = UIImagePickerController.SourceType.photoLibrary
+                                self.pickerVisible.toggle()
+                            } else {
+                                self.showLibraryAlert = true
+                            }
+                        })
+                    })).scaledToFit()
+                    .alert(isPresented: $showLibraryAlert){
+                        Alert(title: Text("Error"), message: Text("Camera not avilable"), dismissButton: .default(Text("OK")))
+                    }
+                Toggle(isOn: $inventoryItem.toggle) {
+                    
+                    Text("Favourite")
+                }.accessibilityIdentifier("FavouriteToggle")
+                TextEditor(text:
+                    Binding(
+                        get: {
+                            inventoryItem.description
+                        },
+                        set: {
+                            newValue in
+                            if newValue.count <= maxChars {
+                                inventoryItem.description = newValue
+                            }
                         }
+                    )
+                ).accessibilityIdentifier("DetailTextEditor")
+                Text("\(String(inventoryItem.description.count))/\(maxChars)").accessibilityIdentifier("DetailText")
+                    .navigationBarItems(trailing:
+                    Button(action: {
+                        AVCaptureDevice.requestAccess(for: AVMediaType.video) { response in
+                            if response && UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera) {
+                                self.showCameraAlert = false
+                                self.imageSource = UIImagePickerController.SourceType.camera
+                                self.pickerVisible.toggle()
+                            } else {
+                                self.showCameraAlert
+                            }
+                        }
+                    }) {
+                        Image(systemName: "camera")
+                    }
+                    .alert(isPresented: $showCameraAlert){
+                        Alert(title: Text("Error"), message: Text("Camera not avilable"), dismissButton: .default(Text("OK")))
                     }
                 )
-            ).accessibilityIdentifier("DetailTextEditor")
-            Text("\(String(inventoryItem.description.count))/\(maxChars)").accessibilityIdentifier("DetailText")
-                .navigationBarItems(trailing:
-                Button(action: {
-                    AVCaptureDevice.requestAccess(for: AVMediaType.video) { response in
-                        if response && UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera) {
-                            self.showCameraAlert = false
-                            self.imageSource = UIImagePickerController.SourceType.camera
-                            self.pickerVisible.toggle()
-                        } else {
-                            self.showCameraAlert
+            }
+            .padding()
+            
+            if pickerVisible {
+                ImageView(pickerVisible: $pickerVisible, sourceType: $imageSource, action: {
+                    (value) in
+                    if let image = value {
+                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()) {
+                            //self.image = image
+                            self.inventoryItem.image = image
                         }
                     }
-                }) {
-                    Image(systemName: "camera")
-                }
-                .alert(isPresented: $showCameraAlert){
-                    Alert(title: Text("Error"), message: Text("Camera not avilable"), dismissButton: .default(Text("OK")))
-                }
-            )
+                })
+            }
         }
-        .padding()
+        
     }
 }
 

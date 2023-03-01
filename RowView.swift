@@ -13,11 +13,12 @@ struct RowView: View {
     var bgColor: Color = Color.white
     var body: some View {
         HStack {
-            Image(systemName: inventoryItem.image)
+            Image(uiImage: inventoryItem.image)
                 .resizable()
                 .scaledToFit()
-                .frame(width: 100, height: 100, alignment: .leading)
+                .frame(width: 100, height: 100, alignment: .center)// Set alighment
                 .background(inventoryItem.toggle ? colour : bgColor)
+                .border(inventoryItem.toggle ? colour : bgColor, width: 4)
             Text(inventoryItem.description)
                 .frame(width: 200, height: 100, alignment: .leading)
         }
